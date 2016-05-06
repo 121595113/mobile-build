@@ -80,12 +80,8 @@ module.exports = function(grunt) {
 
         watch: {
             compass: {
-                files: '<%= config.app %>/_source/sass/**/*.scss',
+                files: '<%= config.app %>/_source/**/*.scss',
                 tasks: ['compass', 'newer:postcss']
-            },
-            jade: {
-                files: '<%= config.app %>/**/*.jade',
-                tasks: ['newer:jade']
             },
             gruntfile: {
                 files: ['Gruntfile.js']

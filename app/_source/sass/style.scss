@@ -1,5 +1,6 @@
 @import "compass","mobile-mixin";
 body{
+	width: rem-calc(100%);
 	background: red;
 	color: red;
 }

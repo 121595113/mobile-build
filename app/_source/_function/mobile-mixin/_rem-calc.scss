@@ -13,25 +13,9 @@ $modules: () !default;
     }
 }
 
-//
+// ======================
 // @functions
-//
-// RANGES
-// We use these functions to define ranges for various things, like media queries. 
-@function lower-bound($range) {
-    @if length($range) <=0 {
-        @return 0;
-    }
-    @return nth($range, 1);
-}
-
-@function upper-bound($range) {
-    @if length($range) < 2 {
-        @return 999999999999;
-    }
-    @return nth($range, 2);
-}
-
+// ======================
 // STRIP UNIT
 // It strips the unit of measure and returns it
 @function strip-unit($num) {
@@ -52,14 +36,9 @@ $modules: () !default;
     @return $value;
 }
 
-@function data($attr) {
-    @if $namespace {
-        @return '[data-' + $namespace + '-' + $attr + ']';
-    }
-    @return '[data-' + $attr + ']';
-}
-
+// ============================
 // REM CALC 
+// ============================
 // New Syntax, allows to optionally calculate on a different base value to counter compounding effect of rem's.
 // Call with 1, 2, 3 or 4 parameters, 'px' is not required but supported:
 // 
@@ -88,14 +67,4 @@ $modules: () !default;
     @return $remValues;
 }
 
-// OLD EM CALC
-// Deprecated: We'll drop support for this in 5.1.0, use rem-calc()
-@function emCalc($values) {
-    @return rem-calc($values);
-}
 
-// OLD EM CALC
-// Deprecated: We'll drop support for this in 5.1.0, use rem-calc()
-@function em-calc($values) {
-    @return rem-calc($values);
-}
