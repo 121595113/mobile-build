@@ -1,0 +1,17 @@
+$Response:false !default;
+// $desgin:(27:720, 24:640, 18:480, 12:320 );
+@if $Response {
+    $mediaArrays: ( 
+        320: "only screen",
+        375: "only screen and (min-width: 321px) and (max-width: 479px)", 
+        480: "only screen and (min-width: 480px) and (max-width: 639px)", 
+        640: "only screen and (min-width: 640px)");
+    @each $key, $value in $mediaArrays {
+        $htmlSize: floor(3 * $key / 80);
+        @media #{$value} {
+            html {
+                font-size: #{$htmlSize}px;
+            }
+        }
+    }
+}

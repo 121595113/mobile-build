@@ -1,0 +1,20 @@
+$modules: () !default;
+// @mixin exports($name...) {
+//     $args: ($name);
+//     @if length($args)==1 {
+//         @if map-get($modules, nth($args, 1))==null {
+//             $modules: map-merge($modules, (nth($args, 1): nth($args, 1))) !global;
+//             @content;
+//         }
+//     }
+//     @else {
+//         @if map-get($modules, $args)==null {
+//             $list: ();
+//             @each $val in $args {
+//                 $list: map-merge($list, (($val): $val));
+//             }
+//             $modules: map-merge($modules, ($args: $list)) !global;
+//             @content;
+//         }
+//     }
+// }

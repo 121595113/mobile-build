@@ -1,0 +1,55 @@
+$pi: 3.14159265359;
+
+@function pow($base,$exp){
+  $value: $base;
+  @if $exp > 1{
+    @for $i from 2 through $exp{
+      $value: $value * $base;
+    }
+  }
+  @if $exp < 1{
+    @for $i from 0 through -$exp{
+      $value: $value / $base;
+    }
+  }
+  @return $value;
+}
+
+@function fact($val){
+  $value: 1;
+  @if $val > 0{
+    @for $i from 1 through $number{
+      $value: $value * $i;
+    }
+  }
+}
+
+@function sin($angle, $degrees: false){
+  $sin: 0;
+  @if $degrees{
+    $degrees: $degrees / 180 * $pi;
+  }
+  @for $n from 1 through 10{
+    $sin: $sin + ( pow(-1,n) / fact(2n+1) ) * pow($angle,(2n+1));
+  }
+  @return $sin;
+}
+
+@function cos($angle, $degrees: false){
+  $cos: 0;
+  @if $degrees{
+    $degrees: $degrees / 180 * $pi;
+  }
+  @for $n from 1 through 10{
+    $cos: $cos + ( pow(-1,n) / fact(2n) ) * pow($angle,2n);
+  }
+  @return $cos;
+}
+
+@function tan($angle, $degrees: false){
+  @if $degrees{
+    $degrees: $degrees / 180 * $pi;
+  }
+  $tan: sin($angle) / cos($angle);
+  @return $tan;
+}

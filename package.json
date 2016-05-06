@@ -1,0 +1,36 @@
+{
+  "name": "mobile-build",
+  "version": "1.0.0",
+  "description": "快速创建自适应移动的项目",
+  "main": " ",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/121595113/mobile-build.git"
+  },
+  "keywords": [
+    "自适应",
+    "精灵图",
+    "rem"
+  ],
+  "devDependencies": {
+    "autoprefixer": "^6.2.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-compass": "^1.0.4",
+    "grunt-contrib-cssmin": "^0.12.2",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-newer": "^1.1.1",
+    "grunt-postcss": "^0.7.1",
+    "jit-grunt": "^0.9.1",
+    "time-grunt": "^1.2.2"
+  },
+  "author": "yutao 121595113@qq.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/121595113/mobile-build/issues"
+  },
+  "homepage": "https://github.com/121595113/mobile-build#readme"
+}

@@ -1,0 +1,147 @@
+// 使用说明：此文档基于_rem-calc.scss,在引入此文档之前引入_rem-calc.scss，也可以将_rem-calc.scss引到此文档
+// ＝＝一.mixin ＊＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+// 1.rem-sprites($map[,$dimensions,$active:true])
+//    生成所有文件样式
+//    $map为必填参数,值为sprite-map()得到的变量
+//    $dimensions为可选参数，参数为布尔值。值为true表示输出宽和高，值为false时，不输出宽和高
+//    $active为判断是否需要点击伪类
+// 2.rem-sprite($map,$name[,$dimensions])
+//    生成指定文件样式，必须放在元素内部
+//    $map为必填参数,值为sprite-map()得到的变量
+//    $name为必填参数，值为图片的名称
+//    $dimensions为可选参数，参数为布尔值。值为true表示输出宽和高，值为false时，不输出宽和高
+// ＝＝二.function＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+// 1.calc-width($map[,$item])
+//    计算元算的rem单位的宽度，第一个参数为必填参数，值为sprite-map()得到的变量，第二个参数为可选参数，值为$map的字元素名称
+// 2.calc-height($map[,$item])
+//    计算元算的rem单位的高度，第一个参数为必填参数，值为sprite-map()得到的变量，第二个参数为可选参数，值为$map的字元素名称
+@import "compass";
+// 以rem为单位计算宽度
+@function calc-width($map, $item:null) {
+    @if $item {
+        @return rem-calc(sprite-width($map, $item));
+    }
+    @else {
+        @return rem-calc(sprite-width($map));
+    }
+}
+
+// 以rem为单位计算高度
+@function calc-height($map, $item:null) {
+    @if $item {
+        @return rem-calc(sprite-height($map, $item));
+    }
+    @else {
+        @return rem-calc(sprite-height($map));
+    }
+}
+$lists:() !default;
+@mixin rem-sprite($map, $name, $dimensions:true, $active:false) {
+    $dir-name: sprite-map-name($map);
+    $my-args: ($dir-name);
+    $names: sprite-names($map);
+
+    @include exports($my-args) {
+        @debug sprite-url($map);
+        @at-root {          
+            @each $name in $names {
+                $lists: map-merge($lists,(#{$my-args}-size: calc-width($map) calc-height($map))) !global;
+                $lists: map-merge($lists, (#{$my-args+"-"+$name}: (
+                    name:$name,
+                    width:calc-width($map, $name),
+                    height:calc-height($map, $name),
+                    position:rem-calc(sprite-position($map, $name))
+                    ))) !global;
+            }
+            // @debug $lists;
+
+            %#{$my-args} {
+                background: $map;
+                background-size: map-get($lists,#{$my-args}-size);
+                background-repeat: no-repeat;
+            }
+            @if $active {
+                @each $name in $names {
+                    $id:map-get($lists,#{$my-args+"-"+$name});
+                    $id-active:map-get($lists,#{$my-args+"-"+$name}-active);
+                    @if map-has-key($lists, #{$my-args+"-"+$name}-active) {
+                        %#{$my-args+"-"+map-get($id-active,name)} {
+                            @if $dimensions {
+                                & {
+                                    width: map-get($id-active,width);
+                                    height: map-get($id-active,height);
+                                    background-position: map-get($id-active,position);
+                                }
+                            }
+                            @else {
+                                & {
+                                    background-position: map-get($id-active,position);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    @if (index($modules,$my-args) !=null) {
+        & {
+            @extend %#{$my-args};
+        }
+        $id:map-get($lists,#{$my-args+"-"+$name});
+        $id-active:map-get($lists,#{$my-args+"-"+$name}-active);
+        @if map-has-key($lists, #{$my-args+"-"+$name}-active) {
+            &:active {
+                @extend %#{$my-args};
+                @extend %#{$my-args+"-"+map-get($id-active,name)};
+            }
+            @if $dimensions {
+                & {
+                    width: map-get($id,width);
+                    height: map-get($id,height);
+                    background-position: map-get($id,position);
+                }
+            }
+            @else {
+                & {
+                    background-position: map-get($id,position);
+                }
+            }
+        }
+        @else if map-has-key($lists, #{$my-args+"-"+$name}-active) !=null {
+            @if $dimensions {
+                & {
+                    width: map-get($id,width);
+                    height: map-get($id,height);
+                    background-position: map-get($id,position);
+                }
+            }
+            @else {
+                & {
+                    background-position: map-get($id,position);
+                }
+            }
+        }
+    }
+}
+
+@mixin rem-sprites($map, $dimensions:true, $active:true) {
+    $names: sprite-names($map);
+    $dir-name: sprite-map-name($map);
+    @each $name in $names {
+        .#{$dir-name+$default-sprite-separator+$name} {
+            @include rem-sprite($map, $name, $dimensions, $active);
+        }
+    }
+}
+
+// 使用实例
+// $cur2: sprite-map("cur2/*.png", $spacing: 15px);
+// @include rem-sprites($cur2);
+// div{
+//  @include rem-sprite($cur2,lv4);
+// }
+// span{
+//  @include rem-sprite($cur2,lv3);
+// }
