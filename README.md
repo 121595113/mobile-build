@@ -1,7 +1,28 @@
 # mobile-build
-快速创建自适应的手机项目
-# sass compass images sprites
+> 让移动端布局开发更加容易
 
+### 介绍
+
+- `mobile-build`是一个移动端布局开发解决方案。使用`mobile-build`可以让移动端布局开发更容易。
+
+- 使用rem为单位，为此分装了rem-calc()方法，可以方便的把px转成rem。
+
+- 遵循视觉一致性原则。在不同大小的屏幕和不同的设备像素密度下，让你的页面看起来是一样的。
+
+- 不仅便捷了你的布局，同时它使用起来异常简单。可能你会说 `talk is cheap,show me the code`，那我现在列下mobile-build整个项目的目录结构。
+
+```javascript
+├── app/	//所有的源文件目录
+│   ├── _source/ //sass源文件以及封装的@mixin
+|   |     |——_function/ //@mixin和@function都在这里
+|   |     |——sass/ //样式源文件
+│   ├── css/ //编译后css文件在这里
+│   ├── example/ //案例
+│   └── images/ //图片资源
+│
+└── dist	//文件压缩打包后的文件夹,执行grunt 或 grunt build生成
+    ├── css／
+```
 
 ### 准备
 1. 需要先安装sass和compass[安装教程](http://www.w3cplus.com/sassguide/install.html)
