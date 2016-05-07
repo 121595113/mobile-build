@@ -12,17 +12,28 @@
 - 不仅便捷了你的布局，同时它使用起来异常简单。可能你会说 `talk is cheap,show me the code`，那我现在列下mobile-build整个项目的目录结构。
 
 ```javascript
-├── app/	//所有的源文件目录
-│   ├── _source/ //sass源文件以及封装的@mixin
-|   |     |——_function/ //@mixin和@function都在这里
-|   |     |——sass/ //样式源文件
-│   ├── css/ //编译后css文件在这里
-│   ├── example/ //案例
-│   └── images/ //图片资源
+├── app	//所有的源文件目录
+│   ├── _source //sass源文件以及封装的@mixin
+|   |     |——_function //@mixin和@function都在这里
+|   |     |——sass //样式源文件
+│   ├── css //编译后css文件在这里
+│   ├── example //案例
+│   └── images //图片资源
 │
 └── dist	//文件压缩打包后的文件夹,执行grunt 或 grunt build生成
-    ├── css／
+    ├── css
 ```
+
+### 优势
+
+- 保证不同设备下的统一视觉体验。
+- 支持任意尺寸的设计图，不局限于特定尺寸的设计图。
+- 支持单一项目，多种设计图尺寸，专为解决大型，长周期项目。
+- 提供`px-to-rem`转换方法，CSS布局，零成本转换，原始值不丢失。
+
+### 劣势
+
+- 未能解决1px的描边问题
 
 ### 准备
 1. 需要先安装sass和compass[安装教程](http://www.w3cplus.com/sassguide/install.html)
