@@ -1,11 +1,11 @@
 // 使用说明：此文档基于_rem-calc.scss,在引入此文档之前引入_rem-calc.scss，也可以将_rem-calc.scss引到此文档
 // ＝＝一.mixin ＊＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-// 1.rem-sprites($map[,$dimensions,$active:true])
+// 1._rem-sprites($map[,$dimensions,$active:true])
 //    生成所有文件样式
 //    $map为必填参数,值为sprite-map()得到的变量
 //    $dimensions为可选参数，参数为布尔值。值为true表示输出宽和高，值为false时，不输出宽和高
 //    $active为判断是否需要点击伪类
-// 2.rem-sprite($map,$name[,$dimensions])
+// 2._rem-sprite($map,$name[,$dimensions])
 //    生成指定文件样式，必须放在元素内部
 //    $map为必填参数,值为sprite-map()得到的变量
 //    $name为必填参数，值为图片的名称
@@ -138,7 +138,7 @@ $lists:() !default;
     }
 }
 
-// 单个的扩展使用
+// 单次使用
 @mixin rem-sprite($dir-name:null, $name:null, $dimensions:true, $active:true, $pre-name:null, $separator:$default-sprite-separator, $rem-base:$rem-base, $spacing: 0px) {
     $map: null;
     @if $dir-name !=null and type-of($dir-name)==string {
@@ -155,7 +155,7 @@ $lists:() !default;
     }
 }
 
-// 多个的扩展使用
+// 一次应用多个
 @mixin rem-sprites($dir-name:null, $dimensions:true, $active:true, $pre-name:null, $separator:$default-sprite-separator, $rem-base:$rem-base, $spacing: 0px) {
     $map: null;
     @if $dir-name !=null and type-of($dir-name)==string {
@@ -166,13 +166,3 @@ $lists:() !default;
         @warn "==== 请引入要合成的图片！====";
     }
 }
-
-// 使用实例
-// $cur2: sprite-map("cur2/*.png", $spacing: 15px);
-// @include rem-sprites($cur2);
-// div{
-//  @include rem-sprite($cur2,lv4);
-// }
-// span{
-//  @include rem-sprite($cur2,lv3);
-// }
