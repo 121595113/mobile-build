@@ -17,65 +17,59 @@
 //    计算元算的rem单位的高度，第一个参数为必填参数，值为sprite-map()得到的变量，第二个参数为可选参数，值为$map的字元素名称
 @import "compass";
 // 以rem为单位计算宽度
-@function calc-width($map, $item:null) {
+@function calc-width($map, $item:null, $rem-base: $rem-base) {
     @if $item {
-        @return rem-calc(sprite-width($map, $item));
+        @return rem-calc(sprite-width($map, $item), $rem-base);
     }
     @else {
-        @return rem-calc(sprite-width($map));
+        @return rem-calc(sprite-width($map), $rem-base);
     }
 }
 
 // 以rem为单位计算高度
-@function calc-height($map, $item:null) {
+@function calc-height($map, $item:null, $rem-base: $rem-base) {
     @if $item {
-        @return rem-calc(sprite-height($map, $item));
+        @return rem-calc(sprite-height($map, $item), $rem-base);
     }
     @else {
-        @return rem-calc(sprite-height($map));
+        @return rem-calc(sprite-height($map), $rem-base);
     }
 }
+
 $lists:() !default;
-@mixin rem-sprite($map, $name, $dimensions:true, $active:false) {
+@mixin _rem-sprite($map, $name, $dimensions:true, $active:false, $rem-base:$rem-base) {
     $dir-name: sprite-map-name($map);
     $my-args: ($dir-name);
     $names: sprite-names($map);
-
     @include exports($my-args) {
         @debug sprite-url($map);
-        @at-root {          
+        @at-root {
             @each $name in $names {
-                $lists: map-merge($lists,(#{$my-args}-size: calc-width($map) calc-height($map))) !global;
-                $lists: map-merge($lists, (#{$my-args+"-"+$name}: (
-                    name:$name,
-                    width:calc-width($map, $name),
-                    height:calc-height($map, $name),
-                    position:rem-calc(sprite-position($map, $name))
-                    ))) !global;
+                $lists: map-merge($lists, (#{$my-args}-size: calc-width($map) calc-height($map))) !global;
+                $lists: map-merge($lists, (#{$my-args+"-"+$name}: ( name: $name, width: calc-width($map, $name, $rem-base), height: calc-height($map, $name, $rem-base), position: rem-calc(sprite-position($map, $name), $rem-base)))) !global;
             }
             // @debug $lists;
-
             %#{$my-args} {
                 background: $map;
-                background-size: map-get($lists,#{$my-args}-size);
+                background-size: map-get($lists, #{$my-args}-size);
                 background-repeat: no-repeat;
             }
             @if $active {
                 @each $name in $names {
-                    $id:map-get($lists,#{$my-args+"-"+$name});
-                    $id-active:map-get($lists,#{$my-args+"-"+$name}-active);
+                    $id:map-get($lists, #{$my-args+"-"+$name});
+                    $id-active:map-get($lists, #{$my-args+"-"+$name}-active);
                     @if map-has-key($lists, #{$my-args+"-"+$name}-active) {
                         %#{$my-args+"-"+map-get($id-active,name)} {
                             @if $dimensions {
                                 & {
-                                    width: map-get($id-active,width);
-                                    height: map-get($id-active,height);
-                                    background-position: map-get($id-active,position);
+                                    width: map-get($id-active, width);
+                                    height: map-get($id-active, height);
+                                    background-position: map-get($id-active, position);
                                 }
                             }
                             @else {
                                 & {
-                                    background-position: map-get($id-active,position);
+                                    background-position: map-get($id-active, position);
                                 }
                             }
                         }
@@ -84,13 +78,12 @@ $lists:() !default;
             }
         }
     }
-    
-    @if (index($modules,$my-args) !=null) {
+    @if (index($modules, $my-args) !=null) {
         & {
             @extend %#{$my-args};
         }
-        $id:map-get($lists,#{$my-args+"-"+$name});
-        $id-active:map-get($lists,#{$my-args+"-"+$name}-active);
+        $id:map-get($lists, #{$my-args+"-"+$name});
+        $id-active:map-get($lists, #{$my-args+"-"+$name}-active);
         @if map-has-key($lists, #{$my-args+"-"+$name}-active) {
             &:active {
                 @extend %#{$my-args};
@@ -98,41 +91,69 @@ $lists:() !default;
             }
             @if $dimensions {
                 & {
-                    width: map-get($id,width);
-                    height: map-get($id,height);
-                    background-position: map-get($id,position);
+                    width: map-get($id, width);
+                    height: map-get($id, height);
+                    background-position: map-get($id, position);
                 }
             }
             @else {
                 & {
-                    background-position: map-get($id,position);
+                    background-position: map-get($id, position);
                 }
             }
         }
         @else if map-has-key($lists, #{$my-args+"-"+$name}-active) !=null {
             @if $dimensions {
                 & {
-                    width: map-get($id,width);
-                    height: map-get($id,height);
-                    background-position: map-get($id,position);
+                    width: map-get($id, width);
+                    height: map-get($id, height);
+                    background-position: map-get($id, position);
                 }
             }
             @else {
                 & {
-                    background-position: map-get($id,position);
+                    background-position: map-get($id, position);
                 }
             }
         }
     }
 }
 
-@mixin rem-sprites($map, $dimensions:true, $active:true) {
+@mixin _rem-sprites($map, $dimensions:true, $active:true, $pre-name:null, $separator:$default-sprite-separator, $rem-base:$rem-base) {
     $names: sprite-names($map);
-    $dir-name: sprite-map-name($map);
+    $dir-name: $pre-name or sprite-map-name($map);
     @each $name in $names {
-        .#{$dir-name+$default-sprite-separator+$name} {
-            @include rem-sprite($map, $name, $dimensions, $active);
+        .#{$dir-name + $separator + $name} {
+            @include _rem-sprite($map, $name, $dimensions, $active, $rem-base);
         }
+    }
+}
+
+// 单个的扩展使用
+@mixin rem-sprite($dir-name:null, $name:null, $dimensions:true, $active:true, $pre-name:null, $separator:$default-sprite-separator, $rem-base:$rem-base, $spacing: 0px) {
+    $map: null;
+    @if $dir-name !=null and type-of($dir-name)==string {
+        $map: sprite-map($dir-name, $spacing: $spacing);
+        @if $name !=null {
+            @include _rem-sprite($map, $name, $dimensions, $active, $rem-base)
+        }
+        @else {
+            @warn "==== 第二个参数必填，请输入具体的图片名称！====";
+        }
+    }
+    @else {
+        @warn "==== 请引入要合成的图片！====";
+    }
+}
+// 多个的扩展使用
+@mixin rem-sprites($dir-name:null, $dimensions:true, $active:true, $pre-name:null, $separator:$default-sprite-separator, $rem-base:$rem-base, $spacing: 0px) {
+    $map: null;
+    @if $dir-name !=null and type-of($dir-name)==string {
+        $map: sprite-map($dir-name, $spacing: $spacing);
+        @include _rem-sprites($map, $dimensions, $active, $pre-name, $separator, $rem-base);
+    }
+    @else {
+        @warn "==== 请引入要合成的图片！====";
     }
 }
 
