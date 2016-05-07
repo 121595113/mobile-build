@@ -25,4 +25,51 @@ body {
   color: red;
 }
 
+.bbb-lv1, .bbb-lv2, .bbb-lv3, .bbb-lv4, .bbb-lv5, .bbb-lv6, .bbb-lv7 {
+  background: url('../images/cur-sd41e589e57.png');
+  background-size: 2.81481rem 23.7037rem;
+  background-repeat: no-repeat;
+}
+.bbb-lv1 {
+  width: 2.81481rem;
+  height: 3.25926rem;
+  background-position: 0 0;
+}
+
+.bbb-lv2 {
+  width: 2.81481rem;
+  height: 3.25926rem;
+  background-position: 0 16.66667%;
+}
+
+.bbb-lv3 {
+  width: 2.81481rem;
+  height: 3.25926rem;
+  background-position: 0 33.33333%;
+}
+
+.bbb-lv4 {
+  width: 2.81481rem;
+  height: 3.25926rem;
+  background-position: 0 50%;
+}
+
+.bbb-lv5 {
+  width: 2.81481rem;
+  height: 3.25926rem;
+  background-position: 0 66.66667%;
+}
+
+.bbb-lv6 {
+  width: 2.81481rem;
+  height: 3.25926rem;
+  background-position: 0 83.33333%;
+}
+
+.bbb-lv7 {
+  width: 2.81481rem;
+  height: 3.25926rem;
+  background-position: 0 100%;
+}
+
 /*# sourceMappingURL=style.css.map */

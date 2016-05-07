@@ -45,8 +45,17 @@ $lists:() !default;
         @debug sprite-url($map);
         @at-root {
             @each $name in $names {
+                $iconPosXInSprite: nth(sprite-position($map, $name), 1);
+                $iconPosYInSprite: nth(sprite-position($map, $name), 2);
+                @if $iconPosXInSprite !=0 {
+                    $iconPosXInSprite: $iconPosXInSprite / (sprite-width($map, $name) - sprite-width($map)) * 100%;
+                }
+                @if $iconPosYInSprite !=0 {
+                    $iconPosYInSprite: $iconPosYInSprite / (sprite-height($map, $name) - sprite-height($map)) * 100%;
+                }
+                @debug $iconPosYInSprite;
                 $lists: map-merge($lists, (#{$my-args}-size: calc-width($map) calc-height($map))) !global;
-                $lists: map-merge($lists, (#{$my-args+"-"+$name}: ( name: $name, width: calc-width($map, $name, $rem-base), height: calc-height($map, $name, $rem-base), position: rem-calc(sprite-position($map, $name), $rem-base)))) !global;
+                $lists: map-merge($lists, (#{$my-args+"-"+$name}: ( name: $name, width: calc-width($map, $name, $rem-base), height: calc-height($map, $name, $rem-base), position: $iconPosXInSprite $iconPosYInSprite))) !global;
             }
             // @debug $lists;
             %#{$my-args} {
@@ -145,6 +154,7 @@ $lists:() !default;
         @warn "==== 请引入要合成的图片！====";
     }
 }
+
 // 多个的扩展使用
 @mixin rem-sprites($dir-name:null, $dimensions:true, $active:true, $pre-name:null, $separator:$default-sprite-separator, $rem-base:$rem-base, $spacing: 0px) {
     $map: null;
