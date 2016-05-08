@@ -53,7 +53,6 @@ $lists:() !default;
                 @if $iconPosYInSprite !=0 {
                     $iconPosYInSprite: $iconPosYInSprite / (sprite-height($map, $name) - sprite-height($map)) * 100%;
                 }
-                @debug $iconPosYInSprite;
                 $lists: map-merge($lists, (#{$my-args}-size: calc-width($map) calc-height($map))) !global;
                 $lists: map-merge($lists, (#{$my-args+"-"+$name}: ( name: $name, width: calc-width($map, $name, $rem-base), height: calc-height($map, $name, $rem-base), position: $iconPosXInSprite $iconPosYInSprite))) !global;
             }
