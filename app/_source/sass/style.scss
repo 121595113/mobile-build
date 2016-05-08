@@ -1,5 +1,5 @@
 $rem-base: 27;// or 720
-$Response:true;
+// $Response:true;
 @import "compass", "mobile-mixin";
 body {
     width: rem-calc(28);
@@ -9,6 +9,7 @@ body {
 }
 
 @include rem-sprites("cur/*.png",$pre-name:bbb,$spacing:4px);
+
 // div{
 // 	@include rem-sprite("cur/*.png",lv1,$pre-name:bbb,$rem-base:360);
 // 	span{

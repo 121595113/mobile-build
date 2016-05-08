@@ -11,6 +11,9 @@ $modules: () !default;
         $modules: append($modules, $name) !global;
         @content;
     }
+    @else {
+        @warn "已存在，请不要重复引用";
+    }
 }
 
 // ======================

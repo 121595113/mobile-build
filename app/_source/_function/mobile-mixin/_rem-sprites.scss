@@ -36,12 +36,14 @@
     }
 }
 
+$sprites:() !default;
 $lists:() !default;
 @mixin _rem-sprite($map, $name, $dimensions:true, $active:false, $rem-base:$rem-base) {
     $dir-name: sprite-map-name($map);
     $my-args: ($dir-name);
     $names: sprite-names($map);
-    @include exports($my-args) {
+    @if index($sprites, $my-args)==null {
+        $sprites: append($sprites, $my-args) !global;
         @debug sprite-url($map);
         @at-root {
             @each $name in $names {
@@ -56,7 +58,6 @@ $lists:() !default;
                 $lists: map-merge($lists, (#{$my-args}-size: calc-width($map) calc-height($map))) !global;
                 $lists: map-merge($lists, (#{$my-args+"-"+$name}: ( name: $name, width: calc-width($map, $name, $rem-base), height: calc-height($map, $name, $rem-base), position: $iconPosXInSprite $iconPosYInSprite))) !global;
             }
-            // @debug $lists;
             %#{$my-args} {
                 background: $map;
                 background-size: map-get($lists, #{$my-args}-size);
@@ -64,9 +65,9 @@ $lists:() !default;
             }
             @if $active {
                 @each $name in $names {
-                    $id:map-get($lists, #{$my-args+"-"+$name});
-                    $id-active:map-get($lists, #{$my-args+"-"+$name}-active);
-                    @if map-has-key($lists, #{$my-args+"-"+$name}-active) {
+                    $_activename: #{$my-args+"-"+$name}-active;
+                    @if map-has-key($lists, $_activename) {
+                        $id-active: map-get($lists, $_activename);
                         %#{$my-args+"-"+map-get($id-active,name)} {
                             @if $dimensions {
                                 & {
@@ -86,43 +87,28 @@ $lists:() !default;
             }
         }
     }
-    @if (index($modules, $my-args) !=null) {
-        & {
+    & {
+        @extend %#{$my-args};
+    }
+    $id:map-get($lists, #{$my-args+"-"+$name});
+    $_activename: #{$my-args+"-"+$name}-active;
+    $id-active:map-get($lists, $_activename);
+    @if map-has-key($lists, $_activename) {
+        &:active {
             @extend %#{$my-args};
+            @extend %#{$my-args+"-"+map-get($id-active,name)};
         }
-        $id:map-get($lists, #{$my-args+"-"+$name});
-        $id-active:map-get($lists, #{$my-args+"-"+$name}-active);
-        @if map-has-key($lists, #{$my-args+"-"+$name}-active) {
-            &:active {
-                @extend %#{$my-args};
-                @extend %#{$my-args+"-"+map-get($id-active,name)};
-            }
-            @if $dimensions {
-                & {
-                    width: map-get($id, width);
-                    height: map-get($id, height);
-                    background-position: map-get($id, position);
-                }
-            }
-            @else {
-                & {
-                    background-position: map-get($id, position);
-                }
-            }
+    }
+    @if $dimensions {
+        & {
+            width: map-get($id, width);
+            height: map-get($id, height);
+            background-position: map-get($id, position);
         }
-        @else if map-has-key($lists, #{$my-args+"-"+$name}-active) !=null {
-            @if $dimensions {
-                & {
-                    width: map-get($id, width);
-                    height: map-get($id, height);
-                    background-position: map-get($id, position);
-                }
-            }
-            @else {
-                & {
-                    background-position: map-get($id, position);
-                }
-            }
+    }
+    @else {
+        & {
+            background-position: map-get($id, position);
         }
     }
 }
