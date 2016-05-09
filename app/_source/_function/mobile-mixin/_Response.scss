@@ -1,20 +1,20 @@
 $Response:false !default;
-@if $Response {
-    $mediaArrays: ( 
-        320: "only screen and (max-width: 359px)",
-        360: "only screen and (min-width: 360px) and (max-width: 399px)",
-        400: "only screen and (min-width: 400px) and (max-width: 479px)",
-        480: "only screen and (min-width: 480px) and (max-width: 539px)",
-        540: "only screen and (min-width: 540px) and (max-width: 639px)",
-        640: "only screen and (min-width: 640px) and (max-width: 719px)",
-        720: "only screen and (min-width: 720px)"
-        );
-    @each $key, $value in $mediaArrays {
-        $htmlSize: floor(3 * $key / 80);
-        @media #{$value} {
-            html {
-                font-size: #{$htmlSize}px;
-            }
+$mediaArrays:(320 360 400 480 540 640 720);
+@for $i from 1 through length($mediaArrays) {
+    $htmlSize: floor(3 * nth($mediaArrays, $i) / 80);
+    $media: null;
+    @if $i==1 {
+        $media: "only screen and (max-width: #{nth($mediaArrays, $i + 1) - 1}px)";
+    }
+    @else if $i==length($mediaArrays) {
+        $media: "only screen and (min-width: #{nth($mediaArrays, $i)}px)";
+    }
+    @else {
+        $media: "only screen and (min-width: #{nth($mediaArrays, $i)}px) and (max-width: #{nth($mediaArrays, $i + 1) - 1}px)";
+    }
+    @media #{$media} {
+        html {
+            font-size: #{$htmlSize}px;
         }
     }
 }
