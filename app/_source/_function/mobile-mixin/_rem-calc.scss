@@ -1,6 +1,3 @@
-// Foundation by ZURB
-// foundation.zurb.com
-// Licensed under MIT Open Source
 // This is the default html and body font-size for the base rem value.
 $rem-base: 16px !default; // $desgin:(27:720, 24:640, 18:480, 12:320 );
 // IMPORT ONCE
@@ -26,6 +23,12 @@ $modules: () !default;
 }
 
 // CONVERT TO REM
+// *
+//  * 把px转换成rem
+//  * @param  {Number,String} $value       要转换的值
+//  * @param  {Number} $base-value: $rem-base     计算转换参考的基数，默认16px
+//  * @return {Number,String}              转换后的值
+ 
 @function convert-to-rem($value, $base-value: $rem-base) {
     // Check if the value is a number
     @if type-of($value) !='number' {
@@ -50,25 +53,13 @@ $modules: () !default;
     @return $value;
 }
 
-// ============================
-// REM CALC 
-// ============================
-// New Syntax, allows to optionally calculate on a different base value to counter compounding effect of rem's.
-// Call with 1, 2, 3 or 4 parameters, 'px' is not required but supported:
-// 
-//   rem-calc(10 20 30px 40);
-// 
-// Space delimited, if you want to delimit using comma's, wrap it in another pair of brackets
-// 
-//   rem-calc((10, 20, 30, 40px));
-// 
-// Optionally call with a different base (eg: 8px) to calculate rem.
-// 
-//   rem-calc(16px 32px 48px, 8px);
-// 
-// If you require to comma separate your list
-// 
-//   rem-calc((16px, 32px, 48), 8px);
+
+// *
+//  * 将px转换成rem的具体实现
+//  * @param  {Number,Array} $values      要转换的数值，活着一组要转换的数值
+//  * @param  {Number} $base-value: $rem-base     计算转换参考的基数，默认16px
+//  * @return {Number,String}              转换后的值
+ 
 @function rem-calc($values, $base-value: $rem-base) {
     $rem-values: ();
     $count: length($values);
