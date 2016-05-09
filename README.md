@@ -117,7 +117,7 @@ $reset:true;// 开启样式重置
 #### _rem-calc.scss
 
 ```scss
-$rem-base: 16px !default; // $desgin:(27:720, 24:640, 18:480, 12:320 );
+$rem-base: 16px !default; // 默认根据浏览器默认字体大小设置，可以改成其他值，如（12，18，24，27）。也可以根据设计稿尺寸大小设置，如（320，480，640，720）
 
 // 字符串转数值
 @function strip-unit($num) {
@@ -191,7 +191,202 @@ $rem-base: 16px !default; // $desgin:(27:720, 24:640, 18:480, 12:320 );
     }
     @return $rem-values;
 }
-
 ```
+#### _rem-sprites.scss
 
+```scss
+@import "compass";
+/**
+ * 计算宽度
+ * @param  {url} $map       合成后图片的url
+ * @param  {图片名称} $item:null 指定图片的名称
+ * @param  {Number} $rem-base: $rem-base     合图使用的计算基数，可以根据字体大小也可以根据设计稿尺寸设定
+ * @return {Number}            转换后值
+ */
+@function calc-width($map, $item:null, $rem-base: $rem-base) {
+    @if $item {
+        @return rem-calc(sprite-width($map, $item), $rem-base);
+    }
+    @else {
+        @return rem-calc(sprite-width($map), $rem-base);
+    }
+}
+
+/**
+ * 计算高度
+ * @param  {url} $map       合成后图片的url
+ * @param  {图片名称} $item:null 指定图片的名称
+ * @param  {Number} $rem-base: $rem-base     合图使用的计算基数，可以根据字体大小也可以根据设计稿尺寸设定
+ * @return {Number}            转换后值
+ */
+@function calc-height($map, $item:null, $rem-base: $rem-base) {
+    @if $item {
+        @return rem-calc(sprite-height($map, $item), $rem-base);
+    }
+    @else {
+        @return rem-calc(sprite-height($map), $rem-base);
+    }
+}
+
+$sprites:() !default;
+$lists:() !default;
+/**
+ * 单个合图引用私有mixin
+ * @param  {url} $map                合图后的返回的url
+ * @param  {图片名称} $name           指定图片的名称
+ * @param  {Boolean} $dimensions:true    指定是否输出width和height
+ * @param  {Boolean} $active:false       指定是否添加点击状态
+ * @param  {Number} $rem-base:$rem-base 合图使用的计算基数，可以根据字体大小也可以根据设计稿尺寸设定
+ * @param  {Boolean} $line-image:false   指定图片引用是否采用base,默认为false
+ * @return {无}                 
+ */
+@mixin _rem-sprite($map, $name, $dimensions:true, $active:false, $rem-base:$rem-base,$line-image:false) {
+    $dir-name: sprite-map-name($map);
+    $my-args: ($dir-name);
+    $names: sprite-names($map);
+    @if index($sprites, $my-args)==null {
+        $sprites: append($sprites, $my-args) !global;
+        @debug sprite-url($map);
+        @at-root {
+            @each $name in $names {
+                $iconPosXInSprite: nth(sprite-position($map, $name), 1);
+                $iconPosYInSprite: nth(sprite-position($map, $name), 2);
+                @if $iconPosXInSprite !=0 {
+                    $iconPosXInSprite: $iconPosXInSprite / (sprite-width($map, $name) - sprite-width($map)) * 100%;
+                }
+                @if $iconPosYInSprite !=0 {
+                    $iconPosYInSprite: $iconPosYInSprite / (sprite-height($map, $name) - sprite-height($map)) * 100%;
+                }
+                $lists: map-merge($lists, (#{$my-args}-size: calc-width($map) calc-height($map))) !global;
+                $lists: map-merge($lists, (#{$my-args+"-"+$name}: ( name: $name, width: calc-width($map, $name, $rem-base), height: calc-height($map, $name, $rem-base), position: $iconPosXInSprite $iconPosYInSprite))) !global;
+            }
+            %#{$my-args} {
+                @if $line-image == true {
+                    background: inline-sprite($map);
+                } @else {
+                    background: sprite-url($map);
+                }
+                background-size: map-get($lists, #{$my-args}-size);
+                background-repeat: no-repeat;
+            }
+            @if $active {
+                @each $name in $names {
+                    $_activename: #{$my-args+"-"+$name}-active;
+                    @if map-has-key($lists, $_activename) {
+                        $id-active: map-get($lists, $_activename);
+                        %#{$my-args+"-"+map-get($id-active,name)} {
+                            @if $dimensions {
+                                & {
+                                    width: map-get($id-active, width);
+                                    height: map-get($id-active, height);
+                                    background-position: map-get($id-active, position);
+                                }
+                            }
+                            @else {
+                                & {
+                                    background-position: map-get($id-active, position);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    & {
+        @extend %#{$my-args};
+    }
+    $id:map-get($lists, #{$my-args+"-"+$name});
+    $_activename: #{$my-args+"-"+$name}-active;
+    $id-active:map-get($lists, $_activename);
+    @if map-has-key($lists, $_activename) {
+        &:active {
+            @extend %#{$my-args};
+            @extend %#{$my-args+"-"+map-get($id-active,name)};
+        }
+    }
+    @if $dimensions {
+        & {
+            width: map-get($id, width);
+            height: map-get($id, height);
+            background-position: map-get($id, position);
+        }
+    }
+    @else {
+        & {
+            background-position: map-get($id, position);
+        }
+    }
+}
+/**
+ * 合成图片多个引用的私有方法
+ * @param  {url} $map                                 合图后的返回的url
+ * @param  {Boolean} $dimensions:true                     指定是否输出width和height
+ * @param  {Boolean} $active:true                         指定是否添加点击状态
+ * @param  {String} $pre-name:null                       class的前缀，默认根据文件夹名称
+ * @param  {String} $separator:$default-sprite-separator class中间的连接符
+ * @param  {Number} $rem-base:$rem-base                  合图使用的计算基数，可以根据字体大小也可以根据设计稿尺寸设定
+ * @param  {Boolean} $line-image:false                    指定图片引用是否采用base,默认为false
+ * @return {无}                                      
+ */
+@mixin _rem-sprites($map, $dimensions:true, $active:true, $pre-name:null, $separator:$default-sprite-separator, $rem-base:$rem-base, $line-image:false) {
+    $names: sprite-names($map);
+    $dir-name: $pre-name or sprite-map-name($map);
+    @each $name in $names {
+        .#{$dir-name + $separator + $name} {
+            @include _rem-sprite($map, $name, $dimensions, $active, $rem-base, $line-image);
+        }
+    }
+}
+
+/**
+ * 公有单个合图图片的引用mixin
+ * @param  {String} $dir-name:null      要合成图片的本地地址
+ * @param  {图片名称} $name:null          指定图片的名称
+ * @param  {Boolean} $dimensions:true    指定是否输出width和height
+ * @param  {Boolean} $active:true        指定是否添加点击状态
+ * @param  {Number} $rem-base:$rem-base 合图使用的计算基数，可以根据字体大小也可以根据设计稿尺寸设定
+ * @param  {Number} $spacing:           0px           合成图片之间的间隔，默认为“0px”
+ * @param  {Boolean} $line-image:false   指定图片引用是否采用base,默认为false
+ * @return {无}                     
+ */
+@mixin rem-sprite($dir-name:null, $name:null, $dimensions:true, $active:true, $rem-base:$rem-base, $spacing: 0px, $line-image:false) {
+    $map: null;
+    @if $dir-name !=null and type-of($dir-name)==string {
+        $map: sprite-map($dir-name, $spacing: $spacing);
+        @if $name !=null {
+            @include _rem-sprite($map, $name, $dimensions, $active, $rem-base, $line-image)
+        }
+        @else {
+            @warn "==== 第二个参数必填，请输入具体的图片名称！====";
+        }
+    }
+    @else {
+        @warn "==== 请引入要合成的图片！====";
+    }
+}
+
+/**
+ * 公有多个合图图片的引用mixin
+ * @param  {String} $dir-name:null                       要合成图片的本地地址
+ * @param  {Boolean} $dimensions:true                     指定是否输出width和height
+ * @param  {Boolean} $active:true                         指定是否添加点击状态
+ * @param  {String} $pre-name:null                       class的前缀，默认根据文件夹名称
+ * @param  {String} $separator:$default-sprite-separator class中间的连接符,默认“-”
+ * @param  {Number} $rem-base:$rem-base                  合图使用的计算基数，可以根据字体大小也可以根据设计稿尺寸设定
+ * @param  {Number} $spacing:                            0px           合成图片之间的间隔，默认为“0px”
+ * @param  {Boolean} $line-image:false                    指定图片引用是否采用base,默认为false
+ * @return {无}                                     
+ */
+@mixin rem-sprites($dir-name:null, $dimensions:true, $active:true, $pre-name:null, $separator:$default-sprite-separator, $rem-base:$rem-base, $spacing: 0px, $line-image:false) {
+    $map: null;
+    @if $dir-name !=null and type-of($dir-name)==string {
+        $map: sprite-map($dir-name, $spacing: $spacing);
+        @include _rem-sprites($map, $dimensions, $active, $pre-name, $separator, $rem-base,$line-image);
+    }
+    @else {
+        @warn "==== 请引入要合成的图片！====";
+    }
+}
+```
 
