@@ -38,7 +38,7 @@
 
 $sprites:() !default;
 $lists:() !default;
-@mixin _rem-sprite($map, $name, $dimensions:true, $active:false, $rem-base:$rem-base) {
+@mixin _rem-sprite($map, $name, $dimensions:true, $active:false, $rem-base:$rem-base,$line-image:false) {
     $dir-name: sprite-map-name($map);
     $my-args: ($dir-name);
     $names: sprite-names($map);
@@ -59,7 +59,11 @@ $lists:() !default;
                 $lists: map-merge($lists, (#{$my-args+"-"+$name}: ( name: $name, width: calc-width($map, $name, $rem-base), height: calc-height($map, $name, $rem-base), position: $iconPosXInSprite $iconPosYInSprite))) !global;
             }
             %#{$my-args} {
-                background: $map;
+                @if $line-image == true {
+                    background: inline-sprite($map);
+                } @else {
+                    background: sprite-url($map);
+                }
                 background-size: map-get($lists, #{$my-args}-size);
                 background-repeat: no-repeat;
             }
@@ -113,23 +117,23 @@ $lists:() !default;
     }
 }
 
-@mixin _rem-sprites($map, $dimensions:true, $active:true, $pre-name:null, $separator:$default-sprite-separator, $rem-base:$rem-base) {
+@mixin _rem-sprites($map, $dimensions:true, $active:true, $pre-name:null, $separator:$default-sprite-separator, $rem-base:$rem-base, $line-image:false) {
     $names: sprite-names($map);
     $dir-name: $pre-name or sprite-map-name($map);
     @each $name in $names {
         .#{$dir-name + $separator + $name} {
-            @include _rem-sprite($map, $name, $dimensions, $active, $rem-base);
+            @include _rem-sprite($map, $name, $dimensions, $active, $rem-base, $line-image);
         }
     }
 }
 
 // 单次使用
-@mixin rem-sprite($dir-name:null, $name:null, $dimensions:true, $active:true, $rem-base:$rem-base, $spacing: 0px) {
+@mixin rem-sprite($dir-name:null, $name:null, $dimensions:true, $active:true, $rem-base:$rem-base, $spacing: 0px, $line-image:false) {
     $map: null;
     @if $dir-name !=null and type-of($dir-name)==string {
         $map: sprite-map($dir-name, $spacing: $spacing);
         @if $name !=null {
-            @include _rem-sprite($map, $name, $dimensions, $active, $rem-base)
+            @include _rem-sprite($map, $name, $dimensions, $active, $rem-base, $line-image)
         }
         @else {
             @warn "==== 第二个参数必填，请输入具体的图片名称！====";
@@ -141,11 +145,11 @@ $lists:() !default;
 }
 
 // 一次应用多个
-@mixin rem-sprites($dir-name:null, $dimensions:true, $active:true, $pre-name:null, $separator:$default-sprite-separator, $rem-base:$rem-base, $spacing: 0px) {
+@mixin rem-sprites($dir-name:null, $dimensions:true, $active:true, $pre-name:null, $separator:$default-sprite-separator, $rem-base:$rem-base, $spacing: 0px, $line-image:false) {
     $map: null;
     @if $dir-name !=null and type-of($dir-name)==string {
         $map: sprite-map($dir-name, $spacing: $spacing);
-        @include _rem-sprites($map, $dimensions, $active, $pre-name, $separator, $rem-base);
+        @include _rem-sprites($map, $dimensions, $active, $pre-name, $separator, $rem-base,$line-image);
     }
     @else {
         @warn "==== 请引入要合成的图片！====";
