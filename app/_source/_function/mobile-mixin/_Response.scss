@@ -1,10 +1,14 @@
 $Response:false !default;
 @if $Response {
     $mediaArrays: ( 
-        320: "only screen",
-        375: "only screen and (min-width: 321px) and (max-width: 479px)", 
-        480: "only screen and (min-width: 480px) and (max-width: 639px)", 
-        640: "only screen and (min-width: 640px)");
+        320: "only screen and (max-width: 359px)",
+        360: "only screen and (min-width: 360px) and (max-width: 399px)",
+        400: "only screen and (min-width: 400px) and (max-width: 479px)",
+        480: "only screen and (min-width: 480px) and (max-width: 539px)",
+        540: "only screen and (min-width: 540px) and (max-width: 639px)",
+        640: "only screen and (min-width: 640px) and (max-width: 719px)",
+        720: "only screen and (min-width: 720px)"
+        );
     @each $key, $value in $mediaArrays {
         $htmlSize: floor(3 * $key / 80);
         @media #{$value} {
