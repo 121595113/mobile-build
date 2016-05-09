@@ -389,4 +389,32 @@ $lists:() !default;
     }
 }
 ```
+#### _Response.scss
 
+```scss
+$Response:false !default;// 是否开启手机适配模块，默认为false
+$mediaArrays:(320 360 400 480 540 640 720) !default;// 要适配手机尺寸列表，可在引用此文件前重置
+@if $Response == true {
+    @for $i from 1 through length($mediaArrays) {
+        $htmlSize: floor(3 * nth($mediaArrays, $i) / 80);
+        $media: null;
+        @if $i==1 {
+            $media: "only screen and (max-width: #{nth($mediaArrays, $i + 1) - 1}px)";
+        }
+        @else if $i==length($mediaArrays) {
+            $media: "only screen and (min-width: #{nth($mediaArrays, $i)}px)";
+        }
+        @else {
+            $media: "only screen and (min-width: #{nth($mediaArrays, $i)}px) and (max-width: #{nth($mediaArrays, $i + 1) - 1}px)";
+        }
+        @media #{$media} {
+            html {
+                font-size: #{$htmlSize}px;
+            }
+        }
+    }
+}
+
+```
+
+（完）
