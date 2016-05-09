@@ -112,4 +112,86 @@ $reset:true;// 开启样式重置
 ```
 **注：** 不需要修改的配置可以不写，根据自己的实际情况决定是否开启，rem-sprite模块是没有开关功能的，不用的时候不会消耗什么性能
 
+### 功能模块详解
+
+#### _rem-calc.scss
+
+```scss
+$rem-base: 16px !default; // $desgin:(27:720, 24:640, 18:480, 12:320 );
+
+// 字符串转数值
+@function strip-unit($num) {
+    @return $num / ($num * 0 + 1);
+}
+
+/**
+ * 把px转换成rem
+ * @param  {Number,String} $value       要转换的值
+ * @param  {Number} $base-value: $rem-base     计算转换参考的基数，默认16px
+ * @return {Number,String}              转换后的值
+ */
+@function convert-to-rem($value, $base-value: $rem-base) {
+    // Check if the value is a number
+    @if type-of($value) !='number' {
+        @if $value !=auto {
+            @warn inspect($value) + ' was passed to rem-calc(), which is not a number or "auto".';
+        }
+        @return $value;
+    }
+    // Calculate rem if units for $value is not rem
+    @if unit($value) !='rem' {
+        @if strip-unit($base-value) < 320 {
+            $value: strip-unit($value) / strip-unit($base-value) * 1rem;
+        }
+        @else {
+            $value: strip-unit($value) * 320 / strip-unit($base-value) / 12 * 1rem;
+        }
+    }
+    // Turn 0rem into 0
+    @if $value==0rem {
+        $value: 0;
+    }
+    @return $value;
+}
+
+// ============================
+// REM CALC 
+// ============================
+// New Syntax, allows to optionally calculate on a different base value to counter compounding effect of rem's.
+// Call with 1, 2, 3 or 4 parameters, 'px' is not required but supported:
+// 
+//   rem-calc(10 auto 30px 40);
+// 
+// Space delimited, if you want to delimit using comma's, wrap it in another pair of brackets
+// 
+//   rem-calc((10, 20, 30, 40px));
+// 
+// Optionally call with a different base (eg: 8px) to calculate rem.
+// 
+//   rem-calc(16px 32px 48px, 8px);
+// 
+// If you require to comma separate your list
+// 
+//   rem-calc((16px, 32px, 48), 8px);
+
+/**
+ * 将px转换成rem的具体实现
+ * @param  {Number,Array} $values      要转换的数值，活着一组要转换的数值
+ * @param  {Number} $base-value: $rem-base     计算转换参考的基数，默认16px
+ * @return {Number,String}              转换后的值
+ */
+@function rem-calc($values, $base-value: $rem-base) {
+    $rem-values: ();
+    $count: length($values);
+    @if $count==1 {
+        @return convert-to-rem($values, $base-value);
+    }
+    @for $i from 1 through $count {
+        $rem-values: append($rem-values, convert-to-rem(nth($values, $i), $base-value));
+    }
+    @return $rem-values;
+}
+
+```
+
 
