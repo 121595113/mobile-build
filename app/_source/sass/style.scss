@@ -11,7 +11,7 @@ body {
 @include rem-sprites("cur/*.png",$pre-name:bbb,$spacing:4px);
 
 // div{
-// 	@include rem-sprite("cur/*.png",lv1,$pre-name:bbb,$rem-base:360);
+// 	@include rem-sprite("cur/*.png",lv1,$rem-base:360);
 // 	span{
 // 		@include rem-sprite("cur2/*.png",lv2);
 // 	}

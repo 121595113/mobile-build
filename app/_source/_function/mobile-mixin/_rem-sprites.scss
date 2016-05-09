@@ -124,7 +124,7 @@ $lists:() !default;
 }
 
 // 单次使用
-@mixin rem-sprite($dir-name:null, $name:null, $dimensions:true, $active:true, $pre-name:null, $separator:$default-sprite-separator, $rem-base:$rem-base, $spacing: 0px) {
+@mixin rem-sprite($dir-name:null, $name:null, $dimensions:true, $active:true, $rem-base:$rem-base, $spacing: 0px) {
     $map: null;
     @if $dir-name !=null and type-of($dir-name)==string {
         $map: sprite-map($dir-name, $spacing: $spacing);
