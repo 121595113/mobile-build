@@ -1,6 +1,28 @@
 # mobile-build
 > 让移动端布局开发更加容易
 
+### 新增特性
+
+- 合图引用支持base64的方式，用法如下
+
+```scss
+...
+@include rem-sprites(...,$line-image:true);
+// or
+div{
+    @include rem-sprite(...,$line-image:true);
+}
+```
+
+- 适配手机自定义
+
+```scss
+...
+$Response:true;// 此项为true，下面的配置才有效
+$mediaArrays:(320 480 640 720);//默认$mediaArrays:(320 360 400 480 540 640 720) !default;
+@import "compass", "mobile-mixin";
+```
+
 ### 介绍
 
 - `mobile-build`是一个移动端布局开发解决方案。使用`mobile-build`可以让移动端布局开发更容易。
