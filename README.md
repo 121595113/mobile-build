@@ -1,5 +1,5 @@
 # mobile-build
-> 让移动端布局开发更加容易
+> 让移动端开发布局更加容易
 
 ### 新增特性
 
@@ -118,5 +118,8 @@ $reset:true;// 开启样式重置
 - [_rem-sprites.scss](https://github.com/121595113/mobile-build/wiki/rem-sprites)
 - [_Response.scss](https://github.com/121595113/mobile-build/wiki/Response)
  
+### 下载
 
+- [v1.0.1](https://github.com/121595113/mobile-build/archive/1.0.1.zip)修复总宽度和单个图片使用基数不一致的问题
+- [v1.0.0](https://github.com/121595113/mobile-build/archive/1.0.0.zip)正式版
 （完）
