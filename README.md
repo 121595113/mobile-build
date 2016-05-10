@@ -1,5 +1,5 @@
-# mobile-build
-> 让移动端开发布局更加容易
+# [mobile-build](https://github.com/121595113/mobile-build/releases)
+> 让移动端布局更加容易，方便后期维护
 
 ### 新增特性
 
@@ -22,6 +22,12 @@ $Response:true;// 此项为true，下面的配置才有效
 $mediaArrays:(320 480 640 720);//默认$mediaArrays:(320 360 400 480 540 640 720) !default;
 @import "compass", "mobile-mixin";
 ```
+### 主要功能
+
+1. 专为手机端定制的重置样式
+2. px轻松转rem，操作简单，维护更方便
+3. 适配各种手机尺寸
+4. 精灵合图，支持base64方式引用
 
 ### 介绍
 
@@ -95,22 +101,22 @@ $mediaArrays:(320 480 640 720);//默认$mediaArrays:(320 360 400 480 540 640 720
 ### 用法
 
 ####在scss文件中引入_mobile-mixin.scss
+
 ```scss
 @import "compass", "mobile-mixin";
 ```
-**注：** "compass"是compass默认需要引入的，"mobile-mixin"才是我们要引进的_mobile-mixin.scss文件。其中包括样式重置模块、rem-calc()模块、自适应模块、精灵合图模块，而这些大部分都是通过开关形式开启和关闭的，具体配置相如下
+
+#### 可配置项如下：
+
 ```scss
-$reset:false !default;//是否开启样式重置
-$rem-base: 16px !default;//用于计算rem的基数，默认值16px，是依据设计稿字体大小定制的。同时，你也可以根据设计搞的宽度来订（例如：320 480 640 720 750，但不仅限与此）,其与字体大小对应关系12:320 18:480 24:640 27:720。
-$Response:false !default;//是否开启自适应功能
+$reset:true; // 是否开启样式重置,默认false
+$rem-base: 720; // 用于计算rem的基数，默认值16px，是依据设计稿字体大小定制的。同时，你也可以根据设计搞的宽度来订（例如：320 480 640 720 750，但不仅限与此）,其与字体大小对应关系12:320 18:480 24:640 27:720。
+$Response:true; // 是否开启自适应功能，默认为false
+$mediaArrays:(320 375 480 640 720); // 可自定义适配手机数组，默认支持320 360 400 480 540 640 720的手机
+
+//合图功能默认集成到mobile-mixin，不需要配置
+
 ```
-具体使用如下：
-```scss
-$rem-base: 27;// or 720
-$reset:true;// 开启样式重置
-@import "compass", "mobile-mixin";
-```
-**注：** 不需要修改的配置可以不写，根据自己的实际情况决定是否开启，rem-sprite模块是没有开关功能的，不用的时候不会消耗什么性能
 
 ### 功能模块详解
 
@@ -118,8 +124,5 @@ $reset:true;// 开启样式重置
 - [_rem-sprites.scss](https://github.com/121595113/mobile-build/wiki/rem-sprites)
 - [_Response.scss](https://github.com/121595113/mobile-build/wiki/Response)
  
-### 下载
 
-- [v1.0.1](https://github.com/121595113/mobile-build/archive/1.0.1.zip)修复总宽度和单个图片使用基数不一致的问题
-- [v1.0.0](https://github.com/121595113/mobile-build/archive/1.0.0.zip)正式版
 （完）
