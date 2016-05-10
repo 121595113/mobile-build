@@ -8,7 +8,7 @@ body {
     color: red;
 }
 
-@include rem-sprites("cur/*.png",$pre-name:bbb,$spacing:4px,$line-image:true);
+@include rem-sprites("cur/*.png",$pre-name:A,$spacing:4px,$line-image:true);
 
 // div{
 // 	@include rem-sprite("cur/*.png",lv1,$rem-base:360,$line-image:true);
