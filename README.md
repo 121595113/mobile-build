@@ -23,14 +23,14 @@ $mediaArrays:(320 480 640 720);//默认320 360 400 480 540 640 720
 @import "compass", "mobile-mixin";
 ```
 ### 主要功能
-
+>
 1. 专为手机端定制的重置样式
 2. px轻松转rem，操作简单，维护更方便
 3. 适配各种手机尺寸
 4. 精灵合图，合图后的单位采用rem，并且支持base64方式引用
 
 ### 介绍
-
+>
 - `mobile-build`是一个移动端布局开发解决方案。使用`mobile-build`可以让移动端布局开发更容易。
 - 保证不同设备下的统一视觉体验。
 - 支持任意尺寸的设计图，不局限于特定尺寸的设计图。
@@ -56,10 +56,11 @@ $mediaArrays:(320 480 640 720);//默认320 360 400 480 540 640 720
 ```
 
 ### 劣势
-
+>
 - 未能解决1px的描边问题
 
 ### 准备
+>
 1. 需要先安装sass和compass[安装教程](http://www.w3cplus.com/sassguide/install.html)
 2. [mac上ruby安装的教程](http://itcourses.cs.unh.edu/assets/docs/704/reports/fall11/Ruby%20on%20Rails%20Tutorial%20-%20Eric%20Callan.pdf)
 3. 下载项目文件到本地[zip](https://github.com/121595113/mobile-build/releases)或git执行
@@ -70,31 +71,35 @@ $mediaArrays:(320 480 640 720);//默认320 360 400 480 540 640 720
 ### 使用
 
 #### 方法一、 使用批处理脚本
-
+>
 1. window系统可以双击_bat文件夹下的window下的批处理脚本*.bat结尾的文件,然后根据提示输入相应的指令即可。"d"表示开发模式，"p"表示生产模式，"n"表示取消；
 2. Mac系统可以终端cd到_sh的文件下，然后将*.sh结尾的文件拖到终端里回车执行。不加参数默认执行的是开发模式，如果加"－p"参数回车后执行的是生产模式。
 
 **注：**开发模式主要执行compass watch文件监听，而生产模式主要执行compass compile样式压缩的任务，可以根据自己的项目修改*.rb的配置项，里面都有相应的注释说明
 
 #### 方法二、 使用grunt自动化构建工具
-
+>
 1.首先确保您已安装了node和grunt。node的安装属于傻瓜式的安装，到[node官网](https://nodejs.org/en/)下载电脑对应的版本双击安装就可以了。
 2.grunt使用npm安装，在安装node的时候node已经为我们安装了npm。命令行执行下面的命令将grunt安装到全局
 ```bash
 > npm install -g grunt-cli
 ```
+>
 3.命令行cd到已下载的项目的根目录下，也就是package.json所在的目录执行下面命令安装node依赖
 ```bash
 > npm install
 ```
+>
 4.如果你的npm是最新的版本npm3，可以执行下面的命令拉平node_modules文件夹（此步可忽略）
 ```bash
 > npm dedupe
 ```
+>
 5.执行下面的命令开启实时监听，到此可以愉快的编码了
 ```bash
 > grunt server
 ```
+>
 6.项目最后需要合并压缩css,并且需要为兼容不同的浏览器添加厂商前缀，执行
 ```bash
 > grunt build
@@ -125,7 +130,8 @@ $mediaArrays:(320 375 480 640 720); // 可自定义适配手机数组，默认�
 #### 一、@function
 
 ##### rem-calc( $value [, $base-value] )
-> 将`px`转换成`rem`的函数，源码解读[_rem-calc.scss](https://github.com/121595113/mobile-build/wiki/rem-calc)
+> 
+将`px`转换成`rem`的函数，源码解读[_rem-calc.scss](https://github.com/121595113/mobile-build/wiki/rem-calc)
 - `$value` 必填参数，表示需要转换的值。可以是单个数字，`px`单位可以省略，也可以是数组。数组中可以有`auto`
 - `$base-value` 可选参数，表示用于计算rem的基准值，默认是全局的`$rem-base`的值。可根据字体大小设置，也可以根据设计稿大小设置
 
