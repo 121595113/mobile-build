@@ -100,7 +100,7 @@ $mediaArrays:(320 480 640 720);//默认320 360 400 480 540 640 720
 > grunt build
 ```
 
-### 用法
+### scss怎么写
 
 #### 一、在scss文件中引入_mobile-mixin.scss
 
@@ -121,6 +121,22 @@ $mediaArrays:(320 375 480 640 720); // 可自定义适配手机数组，默认�
 ```
 
 ### 功能模块详解
+
+#### 一、@function
+
+##### rem-calc($values[, $base-value]) 将px转换成rem的函数
+- `$value` 必填参数，可以是数值，也可以是数组。单位`px`可以省略，数组中支持`auto`
+- `$base-value` 可选参数，用来计算rem的基准值。默认值是全局设置的`$rem-base`，可以根据字体大小设置，也可以根据设计稿大小设置
+
+使用案例：
+```scss
+div{
+    width: rem-calc(28);
+    height: rem-calc(24px, 27);// 27是字体大小
+    margin: rem-calc(10 auto 20);
+    background-size: rem-calc(10px 20,720);// 720是设计稿大小
+}
+```
 
 - [_rem-calc.scss](https://github.com/121595113/mobile-build/wiki/rem-calc)
 - [_rem-sprites.scss](https://github.com/121595113/mobile-build/wiki/rem-sprites)
