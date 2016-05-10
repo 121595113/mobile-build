@@ -1,4 +1,4 @@
-# [mobile-build](https://github.com/121595113/mobile-build/releases)
+# mobile-build
 > 让移动端布局更加容易，方便后期维护
 
 ### 新增特性
@@ -62,7 +62,7 @@ $mediaArrays:(320 480 640 720);//默认$mediaArrays:(320 360 400 480 540 640 720
 ### 准备
 1. 需要先安装sass和compass[安装教程](http://www.w3cplus.com/sassguide/install.html)
 2. [mac上ruby安装的教程](http://itcourses.cs.unh.edu/assets/docs/704/reports/fall11/Ruby%20on%20Rails%20Tutorial%20-%20Eric%20Callan.pdf)
-3. 下载项目文件到本地
+3. 下载项目文件到本地[zip](https://github.com/121595113/mobile-build/releases)或git执行
 ```bash
 > git clone https://github.com/121595113/mobile-build.git
 ```
@@ -78,35 +78,37 @@ $mediaArrays:(320 480 640 720);//默认$mediaArrays:(320 360 400 480 540 640 720
 
 ####二、 使用grunt自动化构建工具
 
-1. 首先确保您已安装了node和grunt。node的安装属于傻瓜式的安装，到[node官网](https://nodejs.org/en/)下载电脑对应的版本双击安装就可以了。
-2. grunt使用npm安装，在安装node的时候node已经为我们安装了npm。在命令行执行
-
+1.首先确保您已安装了node和grunt。node的安装属于傻瓜式的安装，到[node官网](https://nodejs.org/en/)下载电脑对应的版本双击安装就可以了。
+2.grunt使用npm安装，在安装node的时候node已经为我们安装了npm。命令行执行下面的命令将grunt安装到全局
 ```bash
 > npm install -g grunt-cli
 ```
-将grunt安装到全局
-
+3.命令行cd到已下载的项目的根目录下，也就是package.json所在的目录执行下面命令安装node依赖
 ```bash
-> cd mobile-build
 > npm install
+```
+4.如果你的npm是最新的版本npm3，可以执行下面的命令拉平node_modules文件夹（此步可忽略）
+```bash
 > npm dedupe
+```
+5.执行下面的命令开启实时监听，到此可以愉快的编码了
+```bash
 > grunt server
 ```
-此时修改会对.scss文件实时监听，想压缩打包css文件可以执行
-
+6.项目最后需要合并压缩css,并且需要为兼容不同的浏览器添加厂商前缀，执行
 ```bash
 > grunt build
 ```
 
 ### 用法
 
-####在scss文件中引入_mobile-mixin.scss
+#### 一、在scss文件中引入_mobile-mixin.scss
 
 ```scss
 @import "compass", "mobile-mixin";
 ```
 
-#### 可配置项如下：
+#### 二、可配置项如下：
 
 ```scss
 $reset:true; // 是否开启样式重置,默认false
