@@ -124,7 +124,8 @@ $mediaArrays:(320 375 480 640 720); // 可自定义适配手机数组，默认�
 
 #### 一、@function
 
-##### rem-calc($value[,$base-value])  将`px`转换成`rem`的函数，源码解读[_rem-calc.scss](https://github.com/121595113/mobile-build/wiki/rem-calc)
+##### rem-calc( $value [, $base-value] )
+> 将`px`转换成`rem`的函数，源码解读[_rem-calc.scss](https://github.com/121595113/mobile-build/wiki/rem-calc)
 - `$value` 必填参数，表示需要转换的值。可以是单个数字，`px`单位可以省略，也可以是数组。数组中可以有`auto`
 - `$base-value` 可选参数，表示用于计算rem的基准值，默认是全局的`$rem-base`的值。可根据字体大小设置，也可以根据设计稿大小设置
 
