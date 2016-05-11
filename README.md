@@ -145,8 +145,122 @@ div{
 }
 ```
 
-- [_rem-sprites.scss](https://github.com/121595113/mobile-build/wiki/rem-sprites)
-- [_Response.scss](https://github.com/121595113/mobile-build/wiki/Response)
+#### 二、@mixin
+
+##### rem-sprite($dir-name, $name [, $dimensions, $active, $rem-base, $spacing, $line-image] )
+>
+合成精灵图，并引用单个图片的混合宏。源码解析[_rem-sprites.scss](https://github.com/121595113/mobile-build/wiki/rem-sprites)
+- `$dir-name` 必填参数，要合成图片的本地地址。例如，`"a/*.png"`，其中`a`指图片目录下的a文件夹
+- `$name` 必填参数，要引用图片的文件名，注：不包括后缀名
+- `$dimensions` 可选参数，指是否输出图片的宽高，默认为`true`
+- `$active` 可选参数，表是否需要点击状态，默认为`true`。点击状态的图片命名是在原图片的基础上加`-active`,例如，`a.png`点击状态的命名为`a-active.png`
+- `$rem-base` 可选参数，表示用于计算rem的基准值，默认是全局的`$rem-base`的值。可根据字体大小设置，也可以根据设计稿大小设置
+- `$spacing` 合成图片之间的间距，默认：`0px`
+- `$line-image` 图片引用是否采用base64，默认：`false`
+
+##### rem-sprites($dir-name [, $dimensions, $active, $pre-name, $separator, $rem-base, $spacing, $line-image] )
+>
+合成精灵图，并全部引用的混合宏。源码解析[_rem-sprites.scss](https://github.com/121595113/mobile-build/wiki/rem-sprites)
+- `$dir-name` 必填参数，要合成图片的本地地址。例如，`"a/*.png"`，其中`a`指图片目录下的a文件夹
+- `$dimensions` 可选参数，指是否输出图片的宽高，默认为`true`
+- `$active` 可选参数，表是否需要点击状态，默认为`true`。点击状态的图片命名是在原图片的基础上加`-active`,例如，`a.png`点击状态的命名为`a-active.png`
+- `$pre-name` 生成`class`前缀，如果不设置，默认是根据文件夹的命名作为前缀
+- `$separator` 生成`class`的连字符，默认`-`
+- `$rem-base` 可选参数，表示用于计算rem的基准值，默认是全局的`$rem-base`的值。可根据字体大小设置，也可以根据设计稿大小设置
+- `$spacing` 合成图片之间的间距，默认：`0px`
+- `$line-image` 图片引用是否采用base64，默认：`false`
+
+举个例子：
+```scss
+/* 单个图片的引用 */
+.test1{
+	@include rem-sprite("cur/*.png", lv1);
+}
+.test2{
+	@include rem-sprite("cur/*.png", lv2);
+}
+
+/* 多个图片的引用 */
+@include rem-sprites("cur2/*.png", $pre-name:AAAA, $separator:"_", $spacing:4px, $line-image:true);
+
+```
+
+生成的css样式
+```css
+/* 单个图片的引用 */
+.test1, .test2 {
+  background: url('../images/cur-s0b0a785aa0.png');
+  background-size: 2.81481rem 26.07407rem;
+  background-repeat: no-repeat;
+}
+
+.test1 {
+  width: 2.81481rem;
+  height: 3.25926rem;
+  background-position: 0 0;
+}
+
+.test2 {
+  width: 2.81481rem;
+  height: 3.25926rem;
+  background-position: 0 14.28571%;
+}
+
+/* 多个图片的引用 */
+.AAAA_lv1, .AAAA_lv2, .AAAA_lv3, .AAAA_lv4, .AAAA_lv5, .AAAA_lv6, .AAAA_lv7 {
+    background: url('data:image/png;base64,iVBO...Jggg==');
+    background-size: 2.81481rem 23.7037rem;
+    background-repeat: no-repeat;
+}
+.AAAA_lv1 {
+    width: 2.81481rem;
+    height: 3.25926rem;
+    background-position: 0 0;
+}
+
+.AAAA_lv2 {
+    width: 2.81481rem;
+    height: 3.25926rem;
+    background-position: 0 16.66667%;
+}
+
+.AAAA_lv3 {
+    width: 2.81481rem;
+    height: 3.25926rem;
+    background-position: 0 33.33333%;
+}
+
+.AAAA_lv4 {
+    width: 2.81481rem;
+    height: 3.25926rem;
+    background-position: 0 50%;
+}
+
+.AAAA_lv5 {
+    width: 2.81481rem;
+    height: 3.25926rem;
+    background-position: 0 66.66667%;
+}
+
+.AAAA_lv6 {
+    width: 2.81481rem;
+    height: 3.25926rem;
+    background-position: 0 83.33333%;
+}
+
+.AAAA_lv7 {
+    width: 2.81481rem;
+    height: 3.25926rem;
+    background-position: 0 100%;
+}
+```
+
+#### 三、其它
+- [_Response.scss](https://github.com/121595113/mobile-build/wiki/Response)(自适应手机)
+- compass flex布局二次分装，兼容低版本手机浏览器，使用方式API和compass的保持一致，因为此功能不常用需单独引入，引入方法如下
+```scss
+@import "compass","mixin-css3";// 在compass之后引入
+```
  
 
 （完）
