@@ -256,7 +256,7 @@ div{
 ```
 
 #### 三、其它
-- [_Response.scss](https://github.com/121595113/mobile-build/wiki/Response)(自适应手机)
+- [_Response.scss](https://github.com/121595113/mobile-build/wiki/Response)(手机自适应)
 - compass flex布局二次分装，兼容低版本手机浏览器，使用方式API和compass的保持一致，因为此功能不常用需单独引入，引入方法如下
 ```scss
 @import "compass","mixin-css3";// 在compass之后引入
