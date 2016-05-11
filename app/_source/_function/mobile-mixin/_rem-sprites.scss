@@ -3,15 +3,15 @@
 //  * 计算宽度
 //  * @param  {url} $map       合成后图片的url
 //  * @param  {图片名称} $item:null 指定图片的名称
-//  * @param  {Number} $rem-base: $rem-base     合图使用的计算基数，可以根据字体大小也可以根据设计稿尺寸设定
+//  * @param  {Number} $base-value: $rem-base     合图使用的计算基数，可以根据字体大小也可以根据设计稿尺寸设定
 //  * @return {Number}            转换后值
  
-@function calc-width($map, $item:null, $rem-base: $rem-base) {
+@function calc-width($map, $item:null, $base-value: $rem-base) {
     @if $item {
-        @return rem-calc(sprite-width($map, $item), $rem-base);
+        @return rem-calc(sprite-width($map, $item), $base-value);
     }
     @else {
-        @return rem-calc(sprite-width($map), $rem-base);
+        @return rem-calc(sprite-width($map), $base-value);
     }
 }
 
@@ -19,15 +19,15 @@
 //  * 计算高度
 //  * @param  {url} $map       合成后图片的url
 //  * @param  {图片名称} $item:null 指定图片的名称
-//  * @param  {Number} $rem-base: $rem-base     合图使用的计算基数，可以根据字体大小也可以根据设计稿尺寸设定
+//  * @param  {Number} $base-value: $rem-base     合图使用的计算基数，可以根据字体大小也可以根据设计稿尺寸设定
 //  * @return {Number}            转换后值
  
-@function calc-height($map, $item:null, $rem-base: $rem-base) {
+@function calc-height($map, $item:null, $base-value: $rem-base) {
     @if $item {
-        @return rem-calc(sprite-height($map, $item), $rem-base);
+        @return rem-calc(sprite-height($map, $item), $base-value);
     }
     @else {
-        @return rem-calc(sprite-height($map), $rem-base);
+        @return rem-calc(sprite-height($map), $base-value);
     }
 }
 
@@ -60,7 +60,7 @@ $lists:() !default;
                 @if $iconPosYInSprite !=0 {
                     $iconPosYInSprite: $iconPosYInSprite / (sprite-height($map, $name) - sprite-height($map)) * 100%;
                 }
-                $lists: map-merge($lists, (#{$my-args}-size: calc-width($map,$rem-base: $rem-base) calc-height($map,$rem-base: $rem-base))) !global;
+                $lists: map-merge($lists, (#{$my-args}-size: calc-width($map,$base-value: $rem-base) calc-height($map,$base-value: $rem-base))) !global;
                 $lists: map-merge($lists, (#{$my-args+"-"+$name}: ( name: $name, width: calc-width($map, $name, $rem-base), height: calc-height($map, $name, $rem-base), position: $iconPosXInSprite $iconPosYInSprite))) !global;
             }
             %#{$my-args} {
