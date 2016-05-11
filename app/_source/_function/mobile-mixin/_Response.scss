@@ -1,5 +1,5 @@
 $Response:false !default;
-$mediaArrays:(320 360 400 480 540 640 720) !default;
+$mediaArrays:(320 360 375 400 480 540 640 720) !default;
 @if $Response==true {
     $htmlSize: null;
     @if length($mediaArrays)==1 and type-of($mediaArrays) !=string {
