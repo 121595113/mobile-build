@@ -19,7 +19,7 @@ div{
 ```scss
 ...
 $Response:true;// 此项为true，下面的配置才有效
-$mediaArrays:(320 480 640 720);//默认320 360 400 480 540 640 720
+$mediaArrays:(320 480 640 720);//默认320 360 375 400 480 540 640 720
 @import "compass", "mobile-mixin";
 ```
 ### 主要功能
@@ -261,6 +261,8 @@ div{
 ```scss
 @import "compass","mixin-css3";// 在compass之后引入
 ```
- 
+
+### 谁在用？
+- [2345天气王](http://waptianqi.2345.com/)
 
 （完）
