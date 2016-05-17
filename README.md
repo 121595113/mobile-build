@@ -19,14 +19,16 @@ div{
 ```scss
 ...
 $Response:true;// 此项为true，下面的配置才有效
-$mediaArrays:(320 480 640 720);//默认320 360 400 480 540 640 720
+$mediaArrays:(320 480 640 720);//默认320 360 375 400 480 540 640 720
+
+
 @import "compass", "mobile-mixin";
 ```
 ### 主要功能
 >
-1. 专为手机端定制的重置样式
+1. 专为手机端定制的样式重置
 2. px轻松转rem，操作简单，维护更方便
-3. 适配各种手机尺寸
+3. 适配各种移动终端，包括Android、iPhone、iPad，兼容更多的低端机
 4. 精灵合图，合图后的单位采用rem，并且支持base64方式引用
 
 ### 介绍
@@ -61,7 +63,7 @@ $mediaArrays:(320 480 640 720);//默认320 360 400 480 540 640 720
 
 ### 准备
 >
-1. 需要先安装sass和compass[安装教程](http://www.w3cplus.com/sassguide/install.html)
+1. 需要先安装sass和compass[安装教程](http://www.cnblogs.com/yyman001/p/install_sass_compass_for_window.html)
 2. [mac上ruby安装的教程](http://itcourses.cs.unh.edu/assets/docs/704/reports/fall11/Ruby%20on%20Rails%20Tutorial%20-%20Eric%20Callan.pdf)
 3. 下载项目文件到本地[zip](https://github.com/121595113/mobile-build/releases)或git执行
 ```bash
@@ -119,7 +121,7 @@ $mediaArrays:(320 480 640 720);//默认320 360 400 480 540 640 720
 $reset:true; // 是否开启样式重置,默认false
 $rem-base: 720; // 用于计算rem的基数，默认值16px，依据设计稿字体大小而定。也可以根据设计搞的宽度来定，如：320 480 640 720 750，但不仅限与此。字体大小与设计稿的对应关系12:320 18:480 24:640 27:720。
 $Response:true; // 是否开启自适应功能，默认为false
-$mediaArrays:(320 375 480 640 720); // 可自定义适配手机数组，默认支持320 360 400 480 540 640 720的手机
+$mediaArrays:(320 375 480 640 720); // 可自定义适配手机数组，默认支持320 360 375 400 480 540 640 720的手机
 
 //合图功能默认集成到mobile-mixin，不需要配置
 @import "compass", "mobile-mixin";
@@ -261,6 +263,8 @@ div{
 ```scss
 @import "compass","mixin-css3";// 在compass之后引入
 ```
- 
+
+### 谁在用？
+- [2345天气王](http://waptianqi.2345.com/)
 
 （完）
