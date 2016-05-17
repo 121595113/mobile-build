@@ -63,7 +63,7 @@ $mediaArrays:(320 480 640 720);//默认320 360 375 400 480 540 640 720
 
 ### 准备
 >
-1. 需要先安装sass和compass[安装教程](http://www.w3cplus.com/sassguide/install.html)
+1. 需要先安装sass和compass[安装教程](http://www.jianshu.com/p/cbff353c6a41)
 2. [mac上ruby安装的教程](http://itcourses.cs.unh.edu/assets/docs/704/reports/fall11/Ruby%20on%20Rails%20Tutorial%20-%20Eric%20Callan.pdf)
 3. 下载项目文件到本地[zip](https://github.com/121595113/mobile-build/releases)或git执行
 ```bash
