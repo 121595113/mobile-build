@@ -1,21 +1,27 @@
-$rem-base: 27;// or 720
+$reset:true;
+$rem-base: 750;// or 720
 $Response:true;
+$mediaArrays:(320 360 375 400 480 540 640 720 750);
 @import "compass", "mobile-mixin";
+@import "mixin-css3";
 body {
     width: rem-calc(28);
-    height: rem-calc(12 24, 12);
+    height: rem-calc(12 24, 320);
     background: red;
     color: red;
+    width: rem-calc(50,640);
+    padding: rem-calc(10 20 auto 70);
+    @include display-flex(flex);
 }
 
-@include rem-sprites("cur/*.png",$pre-name:A,$spacing:4px,$line-image:true);
+@include rem-sprites("cur/*.png",$spacing:4px,$separator:"sg",$line-image:false);
 
-// div{
-// 	@include rem-sprite("cur/*.png",lv1,$rem-base:360,$line-image:true);
-// 	span{
-// 		@include rem-sprite("cur2/*.png",lv2);
-// 	}
-// 	s{
-// 		@include rem-sprite("cur2/*.png",lv3);
-// 	}
-// }
+div{
+	@include rem-sprite("cur/*.png",lv1,$rem-base:360,$line-image:true);
+	span{
+		@include rem-sprite("cur2/*.png",lv2);
+	}
+	s{
+		@include rem-sprite("cur2/*.png",lv3);
+	}
+}
