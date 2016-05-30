@@ -1,4 +1,6 @@
 # mobile-build
+
+[![Join the chat at https://gitter.im/121595113/mobile-build](https://badges.gitter.im/121595113/mobile-build.svg)](https://gitter.im/121595113/mobile-build?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 > 让移动端布局更加容易，方便后期维护
 
 ### 新增特性
