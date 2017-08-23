@@ -92,3 +92,11 @@
     }
     @include flexbox((justify-content: $justify-content));
 }
+// 字体超出隐藏
+@mixin text-overflows($line:2){
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $line;
+    -webkit-box-orient: vertical;
+}
